@@ -98,7 +98,7 @@ export class Detail{
 
   updateMsgStatus(statusID,id_detail){
     
-    if(statusID==2 || statusID==4){
+    if(statusID==2 || statusID==5){
       this.Tracker.startTracking(statusID,id_detail);
     }else{
       this.Tracker.stopTracking();
@@ -272,7 +272,6 @@ export class Detail{
           this.updateMsgStatus(sdata['status'],this.mission_id);
           //this.loading.dismiss();
         }
-
       });
     }else{
       this.missionservice.changeSatus(this.mission_id,this.Status).subscribe((data)=>{

@@ -32,7 +32,7 @@ export class LocationTrackerProvider {
 
   public startTracking(statusID,id_detail) {
 
-    if((statusID==2  || statusID==4) && id_detail >0 ){
+    if((statusID==2  || statusID==5) && id_detail >0 ){
       let config : BackgroundGeolocationConfig = {
         desiredAccuracy: 100,
         stationaryRadius: 20,
@@ -49,7 +49,11 @@ export class LocationTrackerProvider {
         this.zone.run(() => {
           this.lat = location.latitude;
           this.lng = location.longitude;
-          this.missionService.setLocation(id_detail,this.lat ,this.lng);
+          this.missionService.setLocation(id_detail,this.lat ,this.lng).subscribe((data)=>{
+            if(data){
+              console.log("Send Geo API : "+JSON.stringify(data))
+            }
+          });
         });
       }, (err) => {
         console.log(err);

@@ -50,9 +50,7 @@ export class MissionsProvider {
   setLocation(id,lat,lng){
     //console.log("appel webservice groloclisation :"+this.getApiUrlGeo+'geo?lat='+lat+'&lon='+lng+'&user_id='+localStorage.getItem('id')+"&mission_id="+id)
     return  this.http.get(this.getApiUrlGeo+'geo?lat='+lat+'&lon='+lng+'&user_id='+localStorage.getItem('id')+"&mission_id="+id)
-    .map((data : Response ) => data.json())
-    .do((res : Response ) => console.log(''))
-   ;
+    .map((data : Response ) => data.json());
   }
 
   public setConfirmedMissions(){
@@ -86,7 +84,6 @@ export class MissionsProvider {
           .map((res : Response ) => res.json())
           .do((res : Response ) => console.log(''))
          ;
-
   }
 
   public  confirmedMission(mission_id){

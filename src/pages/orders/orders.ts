@@ -98,6 +98,8 @@ export class Orders {
   ionViewDidLoad() {
     console.log('ionViewDidLoad OrdersPage');
     this.getOrders();
+    this.initMap();
+    this.AdjustMapHeight();
     $(".dropDownHeader_Btn").click(function(){
       if($(".contentDrop").is(":visible")){
         $(".contentDrop").hide();
@@ -105,17 +107,13 @@ export class Orders {
         $(".contentDrop").show();
       }
     });
-    
-    this.initMap();
-    this.AdjustMapHeight();
-   
-    
   }
   
 
 
 
   initMap(){
+     console.log("We're calling the map !");
 
     this.options = {
       enableHighAccuracy : false
@@ -130,7 +128,7 @@ export class Orders {
         this.CurrentLat = pos.coords.latitude ;
         this.CurrentLan = pos.coords.longitude;
 
-        console.log("POS INIT MAP : "+this.userPosLat +" ..... "+this.userPosLng);
+        console.log("INIT MAP : "+this.userPosLat +" ..... "+this.userPosLng);
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, {
           zoom: 15,
@@ -233,14 +231,7 @@ export class Orders {
           });
 
         }
-        
-
-
-        
-          
-
-
-
+      
 
           console.log(" TM ==== "+ this.Markers.length)
           console.log(" MARKERS "+ JSON.stringify(this.Markers))
@@ -322,6 +313,7 @@ getOrders(refResher?){
 
     
       this.CurrentActiveOrder = this.missionsList[0];
+      console.log("CURRENT STATUS ID "+this.CurrentActiveOrder.status);
       
       //this.chatInfos = [];
       //this.chatInfos.push(this.missionsList[0]);
@@ -371,7 +363,6 @@ getOrders(refResher?){
     }
   }  
 
-
   parseFloat(floatIt){
      return parseFloat(floatIt);
   }
@@ -401,10 +392,10 @@ reloadMap(){
     this.TabIndex = tabIdx.index;
     if(this.TabIndex == 1){
       //this.getUserPosition();
+      this.initMap();
     }
     if(this.TabIndex == 2){
        $("#chat_tools").addClass("showTools");
-       //this.statusBar.overlaysWebView(true);
     }else{
       $("#chat_tools").removeClass("showTools");
     }
