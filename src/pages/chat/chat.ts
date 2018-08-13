@@ -13,7 +13,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   selector: 'page-chat',
   templateUrl: 'chat.html',
 })
-export class ChatPage {
+export class Chat {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }

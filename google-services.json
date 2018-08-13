@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "31456540180",
+    "firebase_url": "https://camioapp.firebaseio.com",
+    "project_id": "camioapp",
+    "storage_bucket": "camioapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:31456540180:android:ea61ecf491edd37f",
+        "android_client_info": {
+          "package_name": "com.camiohub.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "31456540180-mrh33mphplbcpgglem60tkh63p21t5kj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4ChcBkZrwn7Q_Cq8k4ZDUcJudkmNIpsk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

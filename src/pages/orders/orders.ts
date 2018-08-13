@@ -145,21 +145,21 @@ export class Orders {
         
 
         this.Markers = [];
-        // if(typeof this.CurrentActiveOrder.infos_loading.location.geo.lat != typeof undefined){
-        //   console.log("GET LOADING MAP INFO")
-        //   console.log("Geo Order position : "+this.CurrentActiveOrder.infos_loading.location.geo.lat+" / "+this.CurrentActiveOrder.infos_loading.location.geo.lng);
-        //   this.CurrentLat= this.CurrentActiveOrder.infos_loading.location.geo.lat;
-        //   this.CurrentLan= this.CurrentActiveOrder.infos_loading.location.geo.lng;
-        //   this.Markers.push(  {'lan': this.CurrentLat, 'lng': this.CurrentLan, 'info': this.CurrentActiveOrder.infos_loading.location.name, 'icon':'assets/imgs/loading_marker.png'} );
-        // }
+        if(typeof this.CurrentActiveOrder.infos_loading.location.geo.lat != typeof undefined){
+          console.log("GET LOADING MAP INFO")
+          console.log("Geo Order position : "+this.CurrentActiveOrder.infos_loading.location.geo.lat+" / "+this.CurrentActiveOrder.infos_loading.location.geo.lng);
+          this.CurrentLat= this.CurrentActiveOrder.infos_loading.location.geo.lat;
+          this.CurrentLan= this.CurrentActiveOrder.infos_loading.location.geo.lng;
+          this.Markers.push(  {'lan': this.CurrentLat, 'lng': this.CurrentLan, 'info': this.CurrentActiveOrder.infos_loading.location.name, 'icon':'assets/imgs/loading_marker.png'} );
+        }
     
-        // if(typeof this.CurrentActiveOrder.infos_delivery.location.geo.lat != typeof undefined){
-        //   console.log("GET DELIVERY MAP INFO")
-        //   console.log("Geo Order position : "+this.CurrentActiveOrder.infos_delivery.location.geo.lat+" / "+this.CurrentActiveOrder.infos_loading.location.geo.lng);
-        //   this.CurrentLat= this.CurrentActiveOrder.infos_delivery.location.geo.lat;
-        //   this.CurrentLan= this.CurrentActiveOrder.infos_delivery.location.geo.lng;
-        //   this.Markers.push(  {'lan': this.CurrentLat, 'lng': this.CurrentLan, 'info': this.CurrentActiveOrder.infos_delivery.location.name, 'icon':'assets/imgs/loading_marker.png'} );
-        // }
+        if(typeof this.CurrentActiveOrder.infos_delivery.location.geo.lat != typeof undefined){
+          console.log("GET DELIVERY MAP INFO")
+          console.log("Geo Order position : "+this.CurrentActiveOrder.infos_delivery.location.geo.lat+" / "+this.CurrentActiveOrder.infos_loading.location.geo.lng);
+          this.CurrentLat= this.CurrentActiveOrder.infos_delivery.location.geo.lat;
+          this.CurrentLan= this.CurrentActiveOrder.infos_delivery.location.geo.lng;
+          this.Markers.push(  {'lan': this.CurrentLat, 'lng': this.CurrentLan, 'info': this.CurrentActiveOrder.infos_delivery.location.name, 'icon':'assets/imgs/loading_marker.png'} );
+        }
         this.Markers.push(  {'lan': pos.coords.latitude, 'lng': pos.coords.longitude, 'info': 'Votre position actuelle', 'icon':'assets/imgs/loading_marker.png'} );
         if(this.Markers.length<3){
           let icon = {

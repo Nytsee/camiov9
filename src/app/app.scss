@@ -691,7 +691,8 @@ overflow: hidden;
 
 #chat_tools{
     position:fixed;
-    bottom:-100px;
+    //bottom:-100px;
+    bottom:0;
     left:0;
     width:100%;
     padding-top:5px;
@@ -709,14 +710,35 @@ overflow: hidden;
    bottom:0;
 }
 
+
+.elemMemberChat:nth-child(even){
+    @include background-image(linear-gradient(to bottom left, white,#f3f3f3));
+}
+
 .elemMemberChat{
     width:100%;
     display:block;
     margin:0;
     padding:0;
     border-bottom:1px solid #eee;
-    margin-bottom:5px;
+    margin-bottom:0;
+    font-size:13px;
     cursor:pointer;
+    padding:16px 10px 10px 10px;
+    @include background-image(linear-gradient(to bottom right, white, #f3f3f3));
+    i{
+        font-size:14px;
+        color:$darkblue;
+        padding-top:3px;
+    }
+    .ref{
+        background:#139CD3;
+        display:inline-block;
+        padding:1px 5px;
+        color:#fff;
+        @include border-radius(3px);
+        text-transform: uppercase;
+    }
     img{
         @include border-radius(100%);
         border:1px solid #eee;
@@ -724,6 +746,9 @@ overflow: hidden;
     .row{
         align-items: center;
       }
+      .col {
+          padding:0 !important;
+      }  
     .infoUserChat{
         width: 100%;
         padding:0 0 0 10px;
@@ -731,13 +756,15 @@ overflow: hidden;
     .chatuser{
      font-family: $mediumFont;   
     }
-      .companyname{
-          font-size:11px;
-          color:#888;
-          padding:0;
-          margin:0;
-          padding:2px 0 0 0;
+      .fromTo{
+        font-family: $mediumFont;   
       }
+      .time{
+        font-size:11px;
+        color:#888;
+        padding:0;
+        margin:0;
+    }     
 }
 
 

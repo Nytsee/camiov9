@@ -10,6 +10,8 @@ import { MyApp } from './app.component';
 import { Login } from '../pages/login/login';
 import { Orders } from '../pages/orders/orders';
 import { Detail } from '../pages/detail/detail';
+import { Chat } from '../pages/chat/chat';
+
 
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,12 +23,14 @@ import { MissionsProvider } from '../providers/missions/missions';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation } from '@ionic-native/geolocation';
 import { LocationTrackerProvider } from '../providers/location-tracker/location-tracker';
+import { FCM } from '@ionic-native/fcm';
 
 @NgModule({
   declarations: [
     MyApp,
     Login,
     Orders,
+    Chat,
     Detail
   ],
   exports: [
@@ -59,6 +63,7 @@ import { LocationTrackerProvider } from '../providers/location-tracker/location-
     MyApp,
     Login,
     Orders,
+    Chat,
     Detail
   ],
   providers: [
@@ -69,7 +74,8 @@ import { LocationTrackerProvider } from '../providers/location-tracker/location-
     MissionsProvider,
     BackgroundGeolocation,
     Geolocation,        
-    LocationTrackerProvider
+    LocationTrackerProvider,
+    FCM
     
   ],
   schemas: [

@@ -25,6 +25,7 @@
     "@angular/router": "^5.2.11",
     "@ionic-native/background-geolocation": "^4.11.0",
     "@ionic-native/core": "~4.11.0",
+    "@ionic-native/fcm": "^4.11.0",
     "@ionic-native/geolocation": "^4.11.0",
     "@ionic-native/google-maps": "^4.9.1",
     "@ionic-native/splash-screen": "~4.11.0",
@@ -35,6 +36,7 @@
     "compass-sass-mixins": "^0.12.7",
     "cordova-android": "7.0.0",
     "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-fcm": "^2.1.2",
     "cordova-plugin-geolocation": "^4.0.1",
     "cordova-plugin-ionic-keyboard": "^2.1.2",
     "cordova-plugin-ionic-webview": "^2.0.2",
@@ -80,10 +82,9 @@
       "cordova-plugin-geolocation": {
         "GEOLOCATION_USAGE_DESCRIPTION": "To locate you"
       },
-      "cordova-plugin-statusbar": {}
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-fcm": {}
     },
-    "platforms": [
-      "android"
-    ]
+    "platforms": []
   }
 }
