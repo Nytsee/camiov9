@@ -29,7 +29,7 @@ export class Login {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
+    //console.log('ionViewDidLoad LoginPage');
   }
 
   openVideo(){
@@ -40,7 +40,7 @@ export class Login {
     if(this.userData.username && this.userData.password){
      this.authService.postData(this.userData, "auth").then((result) =>{
        this.resposeData = result;
-       console.log(this.resposeData);
+       //console.log(this.resposeData);
        if(this.resposeData.id){
          localStorage.setItem('id', this.resposeData.id );
          localStorage.setItem('login', this.userData.username );

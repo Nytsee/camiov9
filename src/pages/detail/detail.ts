@@ -9,7 +9,7 @@ import { IonicPage, NavController, NavParams, ToastController, LoadingController
 import { MissionsProvider } from './../../providers/missions/missions';
 import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
 import { Login } from '../login/login';
-
+import { FCM } from '@ionic-native/fcm';
 
 
 /**
@@ -69,21 +69,22 @@ export class Detail{
     private toastCtrl:ToastController,
     public events: Events,
     public loadingCtrl: LoadingController,
-    private Tracker:LocationTrackerProvider
+    private Tracker:LocationTrackerProvider,
+    private fcm: FCM
   ) {
     let id_detail = navParams.get('id_detail');
     this.id_activeOrder = navParams.get('id_activeOrder');
-    console.log("______ID_________"+this.id_activeOrder)
+    //console.log("______ID_________"+this.id_activeOrder)
     //console.log(id_detail)
     this.getdetail(id_detail);
-    console.log("Detail array : "+this.missionsDetail)
-    console.log("Messaaaage : "+this.MsgStatus[0][2])
+    //console.log("Detail array : "+this.missionsDetail)
+    //console.log("Messaaaage : "+this.MsgStatus[0][2])
   }
 
 
 
- 
-  
+
+
 
 
   showLoading() {
@@ -97,7 +98,7 @@ export class Detail{
 
 
   updateMsgStatus(statusID,id_detail){
-    
+
     if(statusID==2 || statusID==5){
       this.Tracker.startTracking(statusID,id_detail);
     }else{
@@ -109,7 +110,7 @@ export class Detail{
     this.StatusInfos.StatusMsg = this.MsgStatus[statusID][1];
     this.StatusInfos.StatusAction = this.MsgStatus[statusID][3];
 
-    console.log("Status : "+statusID+"To "+this.Loading_point)
+    //console.log("Status : "+statusID+"To "+this.Loading_point)
 
 
       if((statusID == 2) || (statusID == 3)){
@@ -126,8 +127,8 @@ export class Detail{
         this.missionservice.getDetail(id).subscribe(
           data => { this.missionsDetail = data;
           this.missionsDetail = Array.of(this.missionsDetail);
-          console.log("Details Order : "+JSON.stringify(this.missionsDetail))
-          console.log("ID : "+this.missionsDetail[0].id)
+          //console.log("Details Order : "+JSON.stringify(this.missionsDetail))
+          //console.log("ID : "+this.missionsDetail[0].id)
           //this.loading.dismiss();
           this.tehRef =
                       this.missionsDetail[0].reference +
@@ -142,7 +143,7 @@ export class Detail{
 
         this.updateMsgStatus(this.Status,this.mission_id);
 
-        console.log("Current statgus : "+ this.Status)
+        //console.log("Current statgus : "+ this.Status)
          if(this.missionsDetail[0].hasOwnProperty('load_detail')){
               //We check for the palettes entries
               if(this.missionsDetail[0].load_detail.hasOwnProperty('pallets')){
@@ -150,8 +151,8 @@ export class Detail{
                 for(let ii=0; ii<this.palettes.length; ii++){
                   this.TotalPalettes += this.palettes[ii].quantity;
                 }
-                console.log("Total Palettes : "+ this.TotalPalettes);
-                console.log(" Palettes object "+JSON.stringify(this.palettes));
+                //console.log("Total Palettes : "+ this.TotalPalettes);
+                //console.log(" Palettes object "+JSON.stringify(this.palettes));
               }
 
               //We check for the Entire_truck entries
@@ -229,7 +230,7 @@ export class Detail{
   }
 
   ionViewDidLoad() {
-      console.log('ionViewDidLoad DetailPage');
+      //console.log('ionViewDidLoad DetailPage');
       this.animateBoxs()
       $(".readMoreDetail span:eq(1)").hide();
       $(".dropDownHeader_Btn").click(function(){
@@ -286,9 +287,10 @@ export class Detail{
   }
 
     public logout(){
-      console.log("deconnexion")
+      //console.log("deconnexion")
       localStorage.clear();
       this.navCtrl.push(Login);
+      this.fcm.unsubscribeFromTopic(localStorage.getItem('id'));
     }
 
 }

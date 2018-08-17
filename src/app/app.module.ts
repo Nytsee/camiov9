@@ -20,11 +20,13 @@ import { AuthProvider } from '../providers/auth/auth';
 import { MissionsProvider } from '../providers/missions/missions';
 
 //Background Geo Position
-import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation } from '@ionic-native/geolocation';
-import { LocationTrackerProvider } from '../providers/location-tracker/location-tracker';
-import { FCM } from '@ionic-native/fcm';
 
+//fcm notification
+import { FCM } from '@ionic-native/fcm';
+import { ChatProvider } from '../providers/chat/chat';
+import { BackgroundGeolocation} from '@ionic-native/background-geolocation';
+import { LocationTrackerProvider } from '../providers/location-tracker/location-tracker';
 @NgModule({
   declarations: [
     MyApp,
@@ -39,10 +41,10 @@ import { FCM } from '@ionic-native/fcm';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MatButtonModule, 
-    MatMenuModule, 
-    MatFormFieldModule, 
-    MatInputModule, 
+    MatButtonModule,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatTabsModule,
     HttpClientModule,
     HttpModule,
@@ -72,11 +74,11 @@ import { FCM } from '@ionic-native/fcm';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     MissionsProvider,
+    Geolocation,
+    FCM,
+    ChatProvider,
     BackgroundGeolocation,
-    Geolocation,        
-    LocationTrackerProvider,
-    FCM
-    
+    LocationTrackerProvider
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

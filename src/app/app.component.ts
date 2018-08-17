@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform,ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Login } from '../pages/login/login';
-import { Chat } from '../pages/chat/chat';
 import { Orders } from '../pages/orders/orders';
-declare var FCMPlugin;
+import { FCM } from '@ionic-native/fcm';
 
 @Component({
   templateUrl: 'app.html'
@@ -13,39 +12,51 @@ declare var FCMPlugin;
 export class MyApp {
   rootPage;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(platform: Platform,private toastCtrl: ToastController, statusBar: StatusBar, splashScreen: SplashScreen,private fcm: FCM) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      if(typeof(FCMPlugin) != 'undefined') {
-        FCMPlugin.onTokenRefresh(function(token){
-            alert( token );
-        });
-        FCMPlugin.getToken(function(token){
-            alert(token);
-        });
-        if(localStorage.getItem('id')){
-          FCMPlugin.subscribeToTopic(localStorage.getItem('id'));
-        }
-        FCMPlugin.onNotification(function(data){
-            if(data.wasTapped){
-              //Notification was received on device tray and tapped by the user.
-              alert( JSON.stringify(data.title) );
-            }else{
-              //Notification was received in foreground. Maybe the user needs to be notified.
-              alert( JSON.stringify(data) );
-            }
-        });
-      }
-      statusBar.overlaysWebView(false);
+
+      statusBar.overlaysWebView(true);
       statusBar.backgroundColorByHexString('#139CD3');
       splashScreen.hide();
+      if (platform.is('android')) {
+        this.fcm.subscribeToTopic(localStorage.getItem('id'));
+
+        //this.fcm.getToken().then(token => {
+          //alert(token)
+        //});
+
+        this.fcm.onNotification().subscribe(data => {
+          if(data.wasTapped){
+            console.log("Received in background");
+            this.presentToast(JSON.stringify(data))
+          } else {
+            console.log("Received in foreground");
+            this.presentToast(JSON.stringify(data))
+          };
+        });
+    };
+
       if(localStorage.getItem('id')){
-        this.rootPage = Orders;          
+        this.rootPage = Orders;
       }else{
         this.rootPage = Login;
       }
     });
+  }
+  presentToast(message) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'top'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
   }
 }
 
