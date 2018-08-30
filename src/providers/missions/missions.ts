@@ -1,7 +1,9 @@
 
 import { Injectable } from '@angular/core';
-import { Http ,Response ,URLSearchParams} from '@angular/http';
+import { Http , Response , URLSearchParams} from '@angular/http';
 import { LoadingController } from 'ionic-angular';
+
+
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -41,14 +43,23 @@ export class MissionsProvider {
    }
 
 
-  getMissions(){
+   getMissions(){
       return  this.http.get('http://app.camiohub.com/apiweb/beta/missions/list?user_id='+localStorage.getItem('id'))
             .map((data : Response ) => data.json())
             .do((res : Response ) => console.log(''))
-           ;
+          ;
+  }
+  private handleData(res: any) {
+      const body = res.json();
+      console.log(body);
+      return body.result || body || { };
+  }
+  private handleError(error: any): Promise<any> {
+      console.error('An error occurred', error);
+      return Promise.reject(error.message || error);
   }
   setLocation(id,lat,lng){
-    //console.log("appel webservice groloclisation :"+this.getApiUrlGeo+'geo?lat='+lat+'&lon='+lng+'&user_id='+localStorage.getItem('id')+"&mission_id="+id)
+    console.log("appel webservice groloclisation :"+this.getApiUrlGeo+'geo?lat='+lat+'&lon='+lng+'&user_id='+localStorage.getItem('id')+"&mission_id="+id)
     return  this.http.get(this.getApiUrlGeo+'geo?lat='+lat+'&lon='+lng+'&user_id='+localStorage.getItem('id')+"&mission_id="+id)
     .map((data : Response ) => data.json());
   }
@@ -58,7 +69,7 @@ export class MissionsProvider {
           .map((res : Response ) => res.json())
           .do((res : Response ) => console.log(''))
          ;
-}
+  }
 
  public doConfirmMissions(IDSMISSIONS){
 
@@ -109,7 +120,7 @@ export class MissionsProvider {
     //this.showLoading();
     let typeValidayion:string;
 
-    console.log("Status CASE : "+status)
+    //console.log("Status CASE : "+status)
 
           switch(status) {
             case 1: {
@@ -169,8 +180,8 @@ export class MissionsProvider {
       console.log(error.json());
     });
 
- 
- 
+
+
   }
 
 

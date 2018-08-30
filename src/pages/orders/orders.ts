@@ -1,15 +1,16 @@
 
+
 import { Component, ViewChild ,ElementRef } from '@angular/core';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicPage, NavController, NavParams,ToastController, Platform } from 'ionic-angular';
 import { MissionsProvider } from './../../providers/missions/missions';
+import { ChatProvider } from './../../providers/chat/chat';
 import { Geolocation ,GeolocationOptions ,Geoposition ,PositionError } from '@ionic-native/geolocation';
 import { Detail } from '../detail/detail';
 import { Login } from '../login/login';
-import { ChatProvider } from './../../providers/chat/chat';
-import { FCM } from '@ionic-native/fcm';
+
 import  $ from 'jquery';
-import {TweenMax} from 'gsap';
+import { TweenMax} from 'gsap';
 import { Events } from 'ionic-angular';
 
 
@@ -35,7 +36,7 @@ declare var google;
 export class Orders {
 
 
-  missionsList = [];
+  missionsList : any[];
   alldescussion = [];
   CurrentActiveOrder:any;
   options : GeolocationOptions;
@@ -86,37 +87,30 @@ export class Orders {
     public navParams: NavParams,
     public platform: Platform,
     public missionservice :MissionsProvider,
+    public chatservice:ChatProvider,
     private statusBar: StatusBar,
     private toastCtrl:ToastController,
-    private geolocation : Geolocation,
-    private chatservice: ChatProvider,
-    private fcm: FCM
+    private geolocation : Geolocation
   ) {
   }
 
 
   ionViewWillEnter() {
-    //console.log('ionViewWillEnter OrdersPage');
+    console.log('ionViewWillEnter OrdersPage');
   }
 
-  descussionList() {
-      // Get mock message list
+  ionViewDidLoad() {
+    //this.platform.ready().then(() => {
       this.chatservice.getUserDiscussions().subscribe((data)=>{
         if(data) {
-          this.alldescussion = data.data;
-          //console.log('list descussion : '+JSON.stringify(this.alldescussion));
-        }else{
-          this.presentToast("aucune descussion enregistrer");
-         }
+          this.alldescussion = data;
+          this.alldescussion = Array.of(this.alldescussion);
+          console.log("descussion liste: "+JSON.stringify(this.alldescussion))
+        }
       });
 
-  }
-  ionViewDidLoad() {
-    this.platform.ready().then(() => {
-      this.descussionList();
-
       this.getOrders();
-      this.initMap();
+      //this.initMap();
       this.AdjustMapHeight();
       $(".dropDownHeader_Btn").click(function(){
         if($(".contentDrop").is(":visible")){
@@ -125,7 +119,7 @@ export class Orders {
           $(".contentDrop").show();
         }
       });
-    });
+    //});
   }
 
 
@@ -146,7 +140,7 @@ export class Orders {
         this.CurrentLat = pos.coords.latitude ;
         this.CurrentLan = pos.coords.longitude;
 
-        //console.log("INIT MAP : "+this.userPosLat +" ..... "+this.userPosLng);
+        console.log("INIT MAP : "+this.userPosLat +" ..... "+this.userPosLng);
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, {
           zoom: 15,
@@ -164,16 +158,16 @@ export class Orders {
 
         this.Markers = [];
         if(typeof this.CurrentActiveOrder.infos_loading.location.geo.lat != typeof undefined){
-          //console.log("GET LOADING MAP INFO")
-          //console.log("Geo Order position : "+this.CurrentActiveOrder.infos_loading.location.geo.lat+" / "+this.CurrentActiveOrder.infos_loading.location.geo.lng);
+          console.log("GET LOADING MAP INFO")
+          console.log("Geo Order position : "+this.CurrentActiveOrder.infos_loading.location.geo.lat+" / "+this.CurrentActiveOrder.infos_loading.location.geo.lng);
           this.CurrentLat= this.CurrentActiveOrder.infos_loading.location.geo.lat;
           this.CurrentLan= this.CurrentActiveOrder.infos_loading.location.geo.lng;
           this.Markers.push(  {'lan': this.CurrentLat, 'lng': this.CurrentLan, 'info': this.CurrentActiveOrder.infos_loading.location.name, 'icon':'assets/imgs/loading_marker.png'} );
         }
 
         if(typeof this.CurrentActiveOrder.infos_delivery.location.geo.lat != typeof undefined){
-          //console.log("GET DELIVERY MAP INFO")
-          //console.log("Geo Order position : "+this.CurrentActiveOrder.infos_delivery.location.geo.lat+" / "+this.CurrentActiveOrder.infos_loading.location.geo.lng);
+          console.log("GET DELIVERY MAP INFO")
+          console.log("Geo Order position : "+this.CurrentActiveOrder.infos_delivery.location.geo.lat+" / "+this.CurrentActiveOrder.infos_loading.location.geo.lng);
           this.CurrentLat= this.CurrentActiveOrder.infos_delivery.location.geo.lat;
           this.CurrentLan= this.CurrentActiveOrder.infos_delivery.location.geo.lng;
           this.Markers.push(  {'lan': this.CurrentLat, 'lng': this.CurrentLan, 'info': this.CurrentActiveOrder.infos_delivery.location.name, 'icon':'assets/imgs/loading_marker.png'} );
@@ -251,32 +245,32 @@ export class Orders {
         }
 
 
-          //console.log(" TM ==== "+ this.Markers.length)
-          //console.log(" MARKERS "+ JSON.stringify(this.Markers))
+          console.log(" TM ==== "+ this.Markers.length)
+          console.log(" MARKERS "+ JSON.stringify(this.Markers))
 
 
       },(err : PositionError)=>{
-        //console.log("error : " + err.message);
+        console.log("error : " + err.message);
     })
   }
 
 
   ionViewDidEnter() {
-    //console.log('ionViewDidEnter OrdersPage');
+    console.log('ionViewDidEnter OrdersPage');
     //Reload Orders list by switching TAB once entering to the view
     //this.getOrders();
   }
 
   ionViewWillLeave() {
-    //console.log('ionViewWillLeave OrdersPage');
+    console.log('ionViewWillLeave OrdersPage');
   }
 
   ionViewDidLeave() {
-    //console.log('ionViewDidLeave OrdersPage');
+    console.log('ionViewDidLeave OrdersPage');
   }
 
   ionViewCanEnter() {
-    //console.log('ionViewCanEnter OrdersPage');
+    console.log('ionViewCanEnter OrdersPage');
     let ToConfirme = new Array();
     this.missionservice.setConfirmedMissions().subscribe((data)=>{
     if(data) {
@@ -288,7 +282,7 @@ export class Orders {
       if(ToConfirme.length > 0){
         this.missionservice.doConfirmMissions(ToConfirme)
         .subscribe(res => {
-            //console.log("Traitement terminé : "+ToConfirme.length)
+            console.log("Traitement terminé : "+ToConfirme.length)
           });
       }
     }
@@ -310,10 +304,11 @@ getOrders(refResher?){
   this.missionservice.getMissions().subscribe((data)=>{
     if(data) {
       this.missionsList = data;
-      //console.log("La list des missions : " +this.missionsList);
+      this.missionsList = Array.of(this.missionsList);
+      console.log("La list des missions : " +JSON.stringify(this.missionsList));
 
       //console.log("Missions : "+JSON.stringify(this.missionsList[0].infos_loading.location.time_start));
-      //console.log(" Total : "+this.missionsList.length)
+      console.log(" Total : "+this.missionsList.length)
 
       this.missionsList.sort((a,b) => {
         let orderA = (a.status < 4) ? a.infos_loading.location.time_start : a.infos_delivery.location.time_start ;
@@ -331,7 +326,7 @@ getOrders(refResher?){
 
 
       this.CurrentActiveOrder = this.missionsList[0];
-      //console.log("CURRENT STATUS ID "+this.CurrentActiveOrder.status);
+      console.log("CURRENT STATUS ID "+this.CurrentActiveOrder.status);
 
       //this.chatInfos = [];
       //this.chatInfos.push(this.missionsList[0]);
@@ -343,7 +338,7 @@ getOrders(refResher?){
      this.presentToast("aucune mission enregistrer");
     }
 
-      //console.log(this.missionsList);
+      console.log(this.missionsList);
 
       if(refResher){
         setTimeout(() => {
@@ -389,12 +384,12 @@ getOrders(refResher?){
 reloadMap(){
   setTimeout(() => {
   },0)
-  //console.log("########## Map reloaded ###########")
+  console.log("########## Map reloaded ###########")
 }
 
 
   addMarker(Markers){
-       //console.log("TOTAL MARKERS : "+Markers.length)
+       console.log("TOTAL MARKERS : "+Markers.length)
   }
 
 
@@ -402,11 +397,11 @@ reloadMap(){
   doRefresh(refresher) {
     let refResh = refresher;
     this.getOrders(refResh);
-    //console.log('Begin async operation', refresher);
+    console.log('Begin async operation', refresher);
   }
 
   getIdxTab(tabIdx){
-    //console.log("Index tab : "+tabIdx.index);
+    console.log("Index tab : "+tabIdx.index);
     this.TabIndex = tabIdx.index;
     if(this.TabIndex == 1){
       //this.getUserPosition();
@@ -420,10 +415,9 @@ reloadMap(){
   }
 
   public logout(){
-    //console.log("deconnexion")
+    console.log("deconnexion")
     localStorage.clear();
     this.navCtrl.push(Login);
-    this.fcm.unsubscribeFromTopic(localStorage.getItem('id'));
   }
 
 

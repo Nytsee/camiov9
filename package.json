@@ -36,7 +36,6 @@
     "@types/jquery": "^3.3.5",
     "compass": "^0.1.1",
     "compass-sass-mixins": "^0.12.7",
-    "cordova-android": "7.0.0",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-fcm-with-dependecy-updated": "^2.2.4",
     "cordova-plugin-geolocation": "^4.0.1",
@@ -82,8 +81,6 @@
         "ANDROID_SUPPORT_LIBRARY_VERSION": "23+"
       }
     },
-    "platforms": [
-      "android"
-    ]
+    "platforms": []
   }
 }

@@ -1,13 +1,11 @@
 
 import { Component, ViewChild ,ElementRef } from '@angular/core';
-
 import  $ from 'jquery';
 import {TweenMax} from 'gsap';
-
 import { MissionsProvider } from './../../providers/missions/missions';
 import { IonicPage, NavController, NavParams,ToastController, Platform } from 'ionic-angular';
 import { Detail } from '../../pages/detail/detail';
-
+import { ActivatedRoute } from '@angular/router';
 
 declare var google;
 declare var offsetHeight;
@@ -44,6 +42,7 @@ export class Missions {
 
 
   constructor(
+    private router: ActivatedRoute,
     public navCtrl: NavController,
     public navParams: NavParams,
     public platform: Platform,
@@ -109,40 +108,30 @@ export class Missions {
 
 
   getMissions(){
-    this.missionservice.getMissions().subscribe((data)=>{
-      if(data) {
-        this.missionsList = data;
-        console.log("La list des missions : " +this.missionsList);
-
-        //console.log("Missions : "+JSON.stringify(this.missionsList[0].infos_loading.location.time_start));
-        console.log(" Total : "+this.missionsList.length)
-
-        this.missionsList.sort((a,b) => {
-          let orderA = (a.status < 4) ? a.infos_loading.location.time_start : a.infos_delivery.location.time_start ;
-          let orderB = (b.status < 4) ? b.infos_loading.location.time_start : b.infos_delivery.location.time_start ;
-          // console.log("A : "+orderA);
-          //console.log("B : "+orderB);
-          if (orderA > orderB){
-            return 1;
-          }
-          if (orderA < orderB){
-            return -1;
-          }
-          return 0;
-        })
-
-
-        this.CurrentActiveOrder = this.missionsList[0];
-        console.log("Current Active Order"+JSON.stringify(this.CurrentActiveOrder))
-        console.log("Sorted Missions : "+JSON.stringify(this.missionsList))
-
-
-      }else{
-        this.presentToast("aucune mission enregistrer");
-      }
-
-        console.log(this.missionsList);
+    this.router.params.subscribe((params) => {
+      this.missionservice.getMissions()
+      .then(messions => {
+          console.log(messions);
+          this.missionsList = messions;
+        });
     });
+    if(this.missionsList) {
+      this.missionsList.sort((a,b) => {
+        let orderA = (a.status < 4) ? a.infos_loading.location.time_start : a.infos_delivery.location.time_start ;
+        let orderB = (b.status < 4) ? b.infos_loading.location.time_start : b.infos_delivery.location.time_start ;
+        if (orderA > orderB){
+          return 1;
+        }
+        if (orderA < orderB){
+          return -1;
+        }
+        return 0;
+      })
+
+
+      this.CurrentActiveOrder = this.missionsList[0];
+    }
+
   }
 
 
@@ -164,5 +153,5 @@ export class Missions {
   }
 
 
-  
+
 }

@@ -4,7 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Login } from '../pages/login/login';
 import { Orders } from '../pages/orders/orders';
-import { FCM } from '@ionic-native/fcm';
+declare var FCMPlugin;
 
 @Component({
   templateUrl: 'app.html'
@@ -12,7 +12,7 @@ import { FCM } from '@ionic-native/fcm';
 export class MyApp {
   rootPage;
 
-  constructor(platform: Platform,private toastCtrl: ToastController, statusBar: StatusBar, splashScreen: SplashScreen,private fcm: FCM) {
+  constructor(platform: Platform,private toastCtrl: ToastController, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -21,13 +21,13 @@ export class MyApp {
       statusBar.backgroundColorByHexString('#139CD3');
       splashScreen.hide();
       if (platform.is('android')) {
-        this.fcm.subscribeToTopic(localStorage.getItem('id'));
+        FCMPlugin.subscribeToTopic(localStorage.getItem('id'));
 
         //this.fcm.getToken().then(token => {
           //alert(token)
         //});
 
-        this.fcm.onNotification().subscribe(data => {
+        FCMPlugin.onNotification().subscribe(data => {
           if(data.wasTapped){
             console.log("Received in background");
             this.presentToast(JSON.stringify(data))
